@@ -14,219 +14,650 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
+    /* ================== Mobile First Design ================== */
     :root {
       --bg: #0b0b0b;
-      --card: #141414;
-      --border: #222;
+      --card: #1a1a1a;
+      --card-hover: #222;
+      --border: rgba(220, 38, 38, 0.2);
+      --border-light: rgba(255, 255, 255, 0.1);
       --text: #ffffff;
-      --muted: rgba(255,255,255,.6);
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --muted: rgba(255, 255, 255, 0.5);
       --accent: #dc2626;
+      --accent-light: #ef4444;
       --gold: #fbbf24;
+      --gradient: linear-gradient(135deg, #dc2626, #fbbf24);
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     [data-theme="light"] {
-      --bg: #f4f4f5;
+      --bg: #f9fafb;
       --card: #ffffff;
-      --border: #e5e7eb;
+      --card-hover: #f3f4f6;
+      --border: rgba(220, 38, 38, 0.2);
+      --border-light: rgba(0, 0, 0, 0.1);
       --text: #111827;
+      --text-secondary: #4b5563;
       --muted: #6b7280;
       --accent: #dc2626;
+      --accent-light: #ef4444;
       --gold: #ca8a04;
+      --gradient: linear-gradient(135deg, #dc2626, #f59e0b);
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      transition: background .25s ease, color .25s ease;
+      align-items: center;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      position: relative;
+      overflow-x: hidden;
+      padding: 16px;
+      line-height: 1.5;
+    }
+
+    /* Kino efekti fon */
+    .cinema-effect {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .projector-light {
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200%;
+      height: 300px;
+      background: radial-gradient(ellipse at center, 
+        rgba(220, 38, 38, 0.15) 0%, 
+        rgba(251, 191, 36, 0.1) 30%, 
+        transparent 70%);
+      animation: projector-sweep 20s infinite alternate ease-in-out;
+    }
+
+    .film-strip {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 20px,
+        rgba(255, 255, 255, 0.02) 20px,
+        rgba(255, 255, 255, 0.02) 22px
+      );
+      animation: film-move 40s linear infinite;
+    }
+
+    @keyframes projector-sweep {
+      0%, 100% { transform: translateX(-50%) rotate(0deg); }
+      25% { transform: translateX(-50%) rotate(5deg); }
+      50% { transform: translateX(-50%) rotate(-5deg); }
+      75% { transform: translateX(-50%) rotate(3deg); }
+    }
+
+    @keyframes film-move {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(100px); }
     }
 
     .wrapper {
       width: 100%;
-      max-width: 420px;
-      padding: 20px 16px 40px;
-      text-align: center;
+      max-width: 400px;
+      position: relative;
+      z-index: 1;
+      animation: fade-in 0.5s ease-out;
     }
 
-    /* Theme toggle */
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========== Theme Toggle ========== */
     .theme-toggle {
       display: flex;
       justify-content: flex-end;
+      margin-bottom: 24px;
     }
 
-    .toggle-btn {
+    .theme-btn {
       background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 8px 14px;
+      border: 1px solid var(--border-light);
+      border-radius: 50px;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 20px;
       color: var(--text);
+      box-shadow: var(--shadow-light);
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
     }
 
-    /* Header */
+    .theme-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--gradient);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .theme-btn:hover::after {
+      opacity: 0.1;
+    }
+
+    .theme-btn i {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ========== Header / Avatar ========== */
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .avatar-container {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 16px;
+    }
+
     .avatar {
-      width: 96px;
-      height: 96px;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
-      margin: 16px auto 10px;
       object-fit: cover;
-      border: 3px solid var(--accent);
+      border: 3px solid transparent;
+      background: var(--gradient) border-box;
+      box-shadow: 0 0 20px rgba(220, 38, 38, 0.4), 
+                  inset 0 0 20px rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease;
+      animation: avatar-glow 3s infinite alternate;
+    }
+
+    @keyframes avatar-glow {
+      0% { box-shadow: 0 0 15px rgba(220, 38, 38, 0.4); }
+      100% { box-shadow: 0 0 25px rgba(220, 38, 38, 0.6), 0 0 35px rgba(251, 191, 36, 0.3); }
+    }
+
+    .avatar:hover {
+      transform: scale(1.05);
+    }
+
+    .avatar-container::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border-radius: 50%;
+      background: var(--gradient);
+      z-index: -1;
+      opacity: 0.5;
+      animation: spin 10s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     h1 {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 800;
+      margin-bottom: 8px;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .bio {
-      font-size: 14px;
+      font-size: 15px;
       color: var(--gold);
-      margin-bottom: 22px;
+      margin-bottom: 5px;
+      font-weight: 500;
     }
 
-    /* Stats */
+    .tagline {
+      font-size: 13px;
+      color: var(--text-secondary);
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    /* ========== Stats ========== */
     .stats {
       display: flex;
-      justify-content: space-between;
       background: var(--card);
-      border-radius: 14px;
-      padding: 12px;
-      margin-bottom: 22px;
-      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 30px;
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stats::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--gradient);
+    }
+
+    .stat {
+      flex: 1;
+      text-align: center;
+      padding: 8px 4px;
+      position: relative;
+    }
+
+    .stat:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 20%;
+      height: 60%;
+      width: 1px;
+      background: var(--border-light);
     }
 
     .stat strong {
       display: block;
-      font-size: 18px;
+      font-size: 20px;
       color: var(--gold);
+      margin-bottom: 4px;
+      font-weight: 700;
     }
 
     .stat span {
       font-size: 12px;
-      color: var(--muted);
+      color: var(--text-secondary);
+      font-weight: 500;
     }
 
-    /* Links */
+    /* ========== Links ========== */
     .links {
       display: flex;
       flex-direction: column;
       gap: 14px;
+      margin-bottom: 30px;
     }
 
     .link {
       display: flex;
       align-items: center;
-      padding: 16px 18px;
+      padding: 18px 20px;
       background: var(--card);
-      border-radius: 14px;
+      border-radius: 16px;
       text-decoration: none;
       color: var(--text);
       font-weight: 600;
-      border: 1px solid var(--border);
-      transition: transform .15s ease, background .15s ease;
+      border: 1px solid var(--border-light);
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-light);
+      position: relative;
+      overflow: hidden;
     }
 
-    .link i {
-      font-size: 20px;
-      margin-right: 14px;
-      width: 24px;
-      color: var(--gold);
+    .link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--gradient);
+      transform: scaleY(0);
+      transition: transform 0.2s ease;
     }
 
     .link:hover {
-      transform: scale(1.02);
+      transform: translateY(-2px);
+      background: var(--card-hover);
+      box-shadow: var(--shadow);
+    }
+
+    .link:hover::before {
+      transform: scaleY(1);
+    }
+
+    .link i {
+      font-size: 22px;
+      margin-right: 16px;
+      width: 28px;
+      color: var(--accent);
+      transition: transform 0.2s ease;
+    }
+
+    .link:hover i {
+      transform: scale(1.1);
+    }
+
+    .link-text {
+      flex: 1;
+      text-align: left;
+      font-size: 16px;
     }
 
     .badge {
-      margin-left: auto;
       font-size: 11px;
-      padding: 3px 8px;
-      background: var(--accent);
-      color: #fff;
-      border-radius: 999px;
+      padding: 4px 10px;
+      background: var(--gradient);
+      color: white;
+      border-radius: 50px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-left: 10px;
     }
 
-    footer {
-      margin-top: 28px;
-      font-size: 12px;
+    .link-arrow {
+      margin-left: 8px;
+      font-size: 14px;
       color: var(--muted);
+      transition: transform 0.2s ease;
+    }
+
+    .link:hover .link-arrow {
+      transform: translateX(3px);
+      color: var(--accent);
+    }
+
+    /* ========== Footer ========== */
+    footer {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-light);
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .copyright {
+      font-size: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    /* ========== Mobile Optimizations ========== */
+    @media (max-width: 480px) {
+      body {
+        padding: 12px;
+      }
+      
+      .wrapper {
+        max-width: 100%;
+      }
+      
+      .avatar-container {
+        width: 90px;
+        height: 90px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      .bio {
+        font-size: 14px;
+      }
+      
+      .link {
+        padding: 16px 18px;
+      }
+      
+      .link-text {
+        font-size: 15px;
+      }
+      
+      .stats {
+        padding: 14px;
+      }
+      
+      .stat strong {
+        font-size: 18px;
+      }
+      
+      .theme-btn {
+        width: 46px;
+        height: 46px;
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 350px) {
+      .stats {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .stat:not(:last-child)::after {
+        display: none;
+      }
+      
+      .stat {
+        padding: 10px 0;
+      }
+    }
+
+    /* Touch optimization */
+    @media (hover: none) and (pointer: coarse) {
+      .link:active {
+        transform: translateY(-1px);
+        background: var(--card-hover);
+      }
+      
+      .theme-btn:active::after {
+        opacity: 0.2;
+      }
     }
   </style>
 </head>
 <body>
 
+  <!-- Cinema effect background -->
+  <div class="cinema-effect">
+    <div class="projector-light"></div>
+    <div class="film-strip"></div>
+  </div>
+
   <div class="wrapper">
 
-    <!-- Toggle -->
+    <!-- Theme toggle -->
     <div class="theme-toggle">
-      <button class="toggle-btn" id="themeBtn">🌙</button>
+      <button class="theme-btn" id="themeBtn">
+        <i class="fas fa-moon"></i>
+      </button>
     </div>
 
-    <img class="avatar" src="https://fastora.uz/icons/icon-192.png" alt="FASTORA">
+    <!-- Header -->
+    <div class="header">
+      <div class="avatar-container">
+        <img class="avatar" src="https://fastora.uz/icons/icon-192.png" alt="FASTORA">
+      </div>
+      <h1>FASTORA</h1>
+      <div class="bio">Kino arxivi va multimedia platformasi</div>
+      <div class="tagline">Eng sara filmlar va seriallar faqat bizda</div>
+    </div>
 
-    <h1>FASTORA</h1>
-    <div class="bio">Kino arxivi va multimedia platformasi</div>
-
+    <!-- Stats -->
     <div class="stats">
-      <div class="stat"><strong>1000+</strong><span>Film</span></div>
-      <div class="stat"><strong>500+</strong><span>Serial</span></div>
-      <div class="stat"><strong>10K+</strong><span>Obuna</span></div>
+      <div class="stat">
+        <strong>1000+</strong>
+        <span>Film</span>
+      </div>
+      <div class="stat">
+        <strong>500+</strong>
+        <span>Serial</span>
+      </div>
+      <div class="stat">
+        <strong>10K+</strong>
+        <span>Obuna</span>
+      </div>
     </div>
 
+    <!-- Links -->
     <div class="links">
       <a class="link" href="https://fastora.uz" target="_blank">
-        <i class="fas fa-globe"></i> Asosiy sayt <span class="badge">NEW</span>
+        <i class="fas fa-globe"></i>
+        <span class="link-text">Asosiy sayt</span>
+        <span class="badge">YANGI</span>
+        <span class="link-arrow">→</span>
       </a>
+      
       <a class="link" href="https://t.me/fastora_uz" target="_blank">
-        <i class="fab fa-telegram"></i> Telegram
+        <i class="fab fa-telegram"></i>
+        <span class="link-text">Telegram kanal</span>
+        <span class="link-arrow">→</span>
       </a>
+      
       <a class="link" href="https://t.me/fastora_katalog" target="_blank">
-        <i class="fas fa-archive"></i> Kino arxivi
+        <i class="fas fa-archive"></i>
+        <span class="link-text">Kino arxivi</span>
+        <span class="link-arrow">→</span>
       </a>
+      
       <a class="link" href="https://instagram.com/fastora_uz" target="_blank">
-        <i class="fab fa-instagram"></i> Instagram
+        <i class="fab fa-instagram"></i>
+        <span class="link-text">Instagram</span>
+        <span class="link-arrow">→</span>
       </a>
+      
       <a class="link" href="https://youtube.com/@fastora_uz" target="_blank">
-        <i class="fab fa-youtube"></i> YouTube
+        <i class="fab fa-youtube"></i>
+        <span class="link-text">YouTube</span>
+        <span class="link-arrow">→</span>
       </a>
+      
       <a class="link" href="https://t.me/fastora_admin" target="_blank">
-        <i class="fas fa-envelope"></i> Biz bilan bog'lanish
+        <i class="fas fa-headset"></i>
+        <span class="link-text">Bog'lanish</span>
+        <span class="link-arrow">→</span>
       </a>
     </div>
 
+    <!-- Footer -->
     <footer>
-      © 2026 FASTORA
+      <div class="copyright">© 2026 FASTORA. Barcha huquqlar himoyalangan.</div>
+      <div class="footer-links">
+        <a href="#">Maxfiylik siyosati</a>
+        <a href="#">Foydalanish shartlari</a>
+      </div>
     </footer>
 
   </div>
 
   <script>
+    // Theme toggle
     const html = document.documentElement;
-    const btn = document.getElementById("themeBtn");
+    const themeBtn = document.getElementById("themeBtn");
+    const themeIcon = themeBtn.querySelector("i");
 
+    // Check saved theme
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
       html.setAttribute("data-theme", savedTheme);
-      btn.textContent = savedTheme === "dark" ? "🌙" : "☀️";
+      themeIcon.className = savedTheme === "dark" ? "fas fa-moon" : "fas fa-sun";
     }
 
-    btn.onclick = () => {
-      const current = html.getAttribute("data-theme");
-      const next = current === "dark" ? "light" : "dark";
-      html.setAttribute("data-theme", next);
-      localStorage.setItem("theme", next);
-      btn.textContent = next === "dark" ? "🌙" : "☀️";
-    };
+    // Toggle theme
+    themeBtn.addEventListener("click", () => {
+      const currentTheme = html.getAttribute("data-theme");
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      
+      html.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+      
+      // Update icon with animation
+      themeIcon.style.transform = "rotate(180deg)";
+      setTimeout(() => {
+        themeIcon.className = newTheme === "dark" ? "fas fa-moon" : "fas fa-sun";
+        themeIcon.style.transform = "rotate(0deg)";
+      }, 150);
+    });
+
+    // Add tap feedback for links on mobile
+    document.querySelectorAll('.link').forEach(link => {
+      link.addEventListener('touchstart', function() {
+        this.style.transform = 'translateY(-1px)';
+      });
+      
+      link.addEventListener('touchend', function() {
+        this.style.transform = '';
+      });
+    });
+
+    // Add page load animation
+    window.addEventListener('load', () => {
+      document.body.style.opacity = 0;
+      document.body.style.transition = 'opacity 0.3s';
+      
+      setTimeout(() => {
+        document.body.style.opacity = 1;
+      }, 50);
+    });
   </script>
 
 </body>
