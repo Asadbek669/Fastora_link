@@ -487,6 +487,18 @@
       }
     }
 
+.links-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.links-row .link {
+  flex: 1; /* har biri teng kenglikda bo‘lsin */
+  min-width: 150px;
+  text-align: center;
+}
+
     @media (max-width: 350px) {
       .stats {
         flex-direction: column;
@@ -574,10 +586,16 @@
       </a>
       
 <!-- Existing Kino arxivi link -->
-      <a class="link" href="https://t.me/fastora_katalog" target="_blank">
-        <i class="fas fa-archive"></i>
+  <!-- Telegram linki icon bilan -->
+      <a class="link" href="https://t.me/fastora_katalog" target="_blank" title="Telegram">
+        <i class="fab fa-telegram fa-2x"></i>
         <span class="link-text">Koreys dramalar</span>
-        <span class="link-arrow">→</span>
+      </a>
+
+  <!-- Posterlar linki matn bilan -->
+      <a class="link" href="korea/index.html">
+        <i class="fas fa-film"></i>
+        <span class="link-text">POSTERLAR</span>
       </a>
 
 <!-- ===== Qo‘shilgan bo‘limlar ===== -->
