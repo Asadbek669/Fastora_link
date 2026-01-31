@@ -396,6 +396,19 @@
       margin-left: 10px;
     }
 
+
+    
+    .links-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .links-row .link {
+      flex: 1; /* har biri teng kenglikda bo‘lsin */
+      min-width: 150px;
+      text-align: center;
+    }
     .link-arrow {
       margin-left: 8px;
       font-size: 14px;
@@ -487,17 +500,6 @@
       }
     }
 
-.links-row {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.links-row .link {
-  flex: 1; /* har biri teng kenglikda bo‘lsin */
-  min-width: 150px;
-  text-align: center;
-}
 
     @media (max-width: 350px) {
       .stats {
