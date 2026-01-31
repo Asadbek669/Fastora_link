@@ -95,18 +95,20 @@ h1 {
   left: 8px;
   font-size: 20px;
   text-decoration: none;
-  color: #e5e7eb;
-  background: rgba(0,0,0,0.6);
+  color: #fff;
+  background: #dc2626; /* DOIM qizil */
   padding: 6px 10px;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
 }
 
 .home-btn:hover {
-  background: #dc2626;
-  color: #fff;
   transform: scale(1.05);
+  /* background qizil doimiy, shuning uchun hover’da faqat kattalashadi */
 }
   
 /* Type badge (Serial/Movie) - yuqori chap */
@@ -158,8 +160,8 @@ h1 {
 <body>
 
 <div class="header">
-  <a href="/" class="home-btn" aria-label="Home">
-    ⌂
+  <a href="#" class="home-btn" aria-label="Home" onclick="goHome(event)">
+      ⌂
   </a>
   <h1>Koreys Dramalar</h1>
 </div>
