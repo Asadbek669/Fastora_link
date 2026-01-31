@@ -407,20 +407,39 @@
       transform: translateX(3px);
       color: var(--accent);
     }
+
+.links-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Telegram ikonka linki */
+.links-row .telegram-icon {
+  flex: 0 0 auto; /* faqat ikonka kengligi */
+  padding: 12px;
+  background: var(--card);
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: var(--shadow-light);
+  transition: all 0.2s ease;
+}
+
+/* Telegram hover effekti */
+.links-row .telegram-icon:hover {
+  transform: translateY(-2px);
+  background: var(--card-hover);
+  box-shadow: var(--shadow);
+}
+
+/* Poster linki */
+.links-row .link:not(.telegram-icon) {
+  flex: 1; /* qolgan joyni egallasin */
+}
     
-    .links-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .links-row .link {
-      flex: 1; /* har biri teng kenglikda bo‘lsin */
-      min-width: 150px;
-      text-align: center;
-    }
-
-
     /* ========== Footer ========== */
     footer {
       text-align: center;
@@ -595,7 +614,7 @@
       </a>
 
   <!-- Posterlar linki matn bilan -->
-      <a class="link" href="korea/index.html">
+      <a class="link" href="korea/">
         <i class="fas fa-film"></i>
         <span class="link-text">POSTERLAR</span>
       </a>
