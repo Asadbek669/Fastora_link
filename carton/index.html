@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Koreys Dramalar | FASTORA</title>
+
+<style>
+:root {
+  --bg: #0b0b0b;
+  --card: #1a1a1a;
+  --text: #fff;
+  --accent: #dc2626;
+  --shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+[data-theme="light"] {
+  --bg: #f9fafb;
+  --card: #fff;
+  --text: #111;
+  --accent: #dc2626;
+  --shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+body {
+  margin:0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding:0;
+}
+
+h1 {
+  text-align:center;
+  margin:12px 0;
+  font-size:22px;
+  background:linear-gradient(135deg,#dc2626,#fbbf24);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+  gap:4px; /* Desktop 0px */
+}
+
+.card {
+  background: var(--card);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow: var(--shadow);
+  cursor:pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.card img {
+  width:100%;
+  display:block;
+}
+
+.title {
+  padding:6px 8px;
+  font-size:13px;
+  font-weight:600;
+  text-align:center;
+  color: var(--text);
+}
+
+/* IMDB badge - yuqori o'ng */
+.imdb-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #f5c518;
+  color: #000;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+}
+
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 8px 0;
+}
+
+.home-btn {
+  position: absolute;
+  left: 8px;
+  font-size: 20px;
+  text-decoration: none;
+  color: #fff;
+  background: #dc2626; /* DOIM qizil */
+  padding: 6px 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.home-btn:hover {
+  transform: scale(1.05);
+  /* background qizil doimiy, shuning uchun hover’da faqat kattalashadi */
+}
+  
+/* Type badge (Serial/Movie) - yuqori chap */
+.type-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #dc2626;
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+}
+
+/* Year - type badge ostida */
+.year-badge {
+  position: absolute;
+  top: 24px;
+  left: 8px;
+  background: #111827;
+  color: #e5e7eb;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  opacity: 0.9;
+}
+
+  
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+}
+
+/* Mobile 3x grid va 2px gap */
+@media (max-width:480px){
+  h1{font-size:20px; margin:8px 0;}
+  .grid{
+    grid-template-columns: repeat(3,1fr); /* 3 yonma-yon */
+    gap:4px; /* Mobilda 4px */
+  }
+  .title{font-size:12px; padding:4px 2px;}
+  .imdb-badge, .type-badge{font-size:11px; padding:1px 3px;}
+  .year-badge{font-size:11px;}
+}
+</style>
+</head>
+<body>
+
+<div class="header" style="position: relative; display: flex; align-items: center; justify-content: center; padding: 8px 0;">
+  <!-- Home tugmasi (chap) -->
+  <a href="../" class="home-btn" style="position:absolute; left:8px; font-size:20px; text-decoration:none; color:#fff; background:#dc2626; padding:6px 10px; border-radius:8px; display:flex; align-items:center; justify-content:center;">
+      ⌂
+  </a>
+
+  <!-- Markaziy sarlavha -->
+  <h1 style="margin:0; font-size:22px; text-align:center; background:linear-gradient(135deg,#dc2626,#fbbf24); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+    MULTFILMLAR
+  </h1>
+
+  <!-- Telegram tugmasi (o‘ng) -->
+  <a href="https://t.me/fastora_katalog" target="_blank" style="position:absolute; right:8px; font-size:24px; color:#0088cc;">📩</a>
+</div>
+
+  
+<div class="grid" id="posterGrid"></div>
+
+<script>
+const posters = [
+  { title:"Idolning advokati", link:"https://t.me/fastora_katalog/3", img:"https://cdn.fastora.uz/Series/Janubiy%20Koreya/Idolning%20advokati/drama3.jpg", imdb:"8.5", year:"2025", type:"1-sezon" },
+  { title:"Men bugundan insonman", link:"https://t.me/fastora_katalog/42", img:"https://cdn.fastora.uz/Series/Janubiy%20Koreya/Men%20bugundan%20insonman/Poster.webp", imdb:"7.9", year:"2025", type:"1-sezon" }
+];
+
+const grid = document.getElementById('posterGrid');
+
+posters.forEach(poster=>{
+  const card = document.createElement('div');
+  card.className='card';
+  card.onclick = ()=>window.open(poster.link,'_blank');
+
+  const img = document.createElement('img');
+  img.src = poster.img;
+  img.alt = poster.title;
+
+  const title = document.createElement('div');
+  title.className='title';
+  title.textContent = poster.title;
+
+  const imdb = document.createElement('div');
+  imdb.className='imdb-badge';
+  imdb.textContent = poster.imdb;
+
+  const type = document.createElement('div');
+  type.className='type-badge';
+  type.textContent = poster.type;
+
+  const year = document.createElement('div');
+  year.className='year-badge';
+  year.textContent = poster.year;
+
+  card.appendChild(img);
+  card.appendChild(imdb);
+  card.appendChild(type);
+  card.appendChild(year);
+  card.appendChild(title);
+  grid.appendChild(card);
+});
+</script>
+
+</body>
+</html>
