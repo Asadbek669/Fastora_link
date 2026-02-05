@@ -144,6 +144,21 @@ h1 {
   box-shadow: 0 6px 20px rgba(0,0,0,0.6);
 }
 
+.poster-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3; /* poster nisbat */
+  background: #111; /* yuklanmaguncha fon */
+  overflow: hidden;
+}
+
+.poster-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* kesib, chiroyli joylaydi */
+  display: block;
+}
+  
 /* Mobile 3x grid va 2px gap */
 @media (max-width:480px){
   h1{font-size:20px; margin:8px 0;}
@@ -296,7 +311,11 @@ posters.forEach(poster=>{
   year.className='year-badge';
   year.textContent = poster.year;
 
-  card.appendChild(img);
+  const wrap = document.createElement('div');
+  wrap.className = 'poster-wrap';
+  wrap.appendChild(img);
+
+  card.appendChild(wrap);
   card.appendChild(imdb);
   card.appendChild(type);
   card.appendChild(year);
