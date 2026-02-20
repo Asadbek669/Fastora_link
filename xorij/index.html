@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tarjima Kinolar| FASTORA</title>
+<title>Tarjima kinolar | FASTORA</title>
 
 <style>
 :root {
@@ -144,6 +144,21 @@ h1 {
   box-shadow: 0 6px 20px rgba(0,0,0,0.6);
 }
 
+.poster-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3; /* poster nisbat */
+  background: #111; /* yuklanmaguncha fon */
+  overflow: hidden;
+}
+
+.poster-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* kesib, chiroyli joylaydi */
+  display: block;
+}
+  
 /* Mobile 3x grid va 2px gap */
 @media (max-width:480px){
   h1{font-size:20px; margin:8px 0;}
