@@ -271,7 +271,11 @@ posters.forEach(poster=>{
   year.className='year-badge';
   year.textContent = poster.year;
 
-  card.appendChild(img);
+  const wrap = document.createElement('div');
+  wrap.className = 'poster-wrap';
+  wrap.appendChild(img);
+
+  card.appendChild(wrap);
   card.appendChild(imdb);
   card.appendChild(type);
   card.appendChild(year);
